@@ -36,10 +36,10 @@ typedef void (*Function)(void*, void*);
 typedef void (*DataDestructor)(void*);
 
 UnaryNode* CreateUnaryNode(void* data, size_t size);
-void DestroyUnaryNode(UnaryNode* node, DataDestructor* destructor);
+void DestroyUnaryNode(UnaryNode* node, DataDestructor destructor);
 
 BinaryNode* CreateBinaryNode(void* data, size_t size);
-void DestroyBinaryNode(BinaryNode* node, DataDestructor* destructor);
+void DestroyBinaryNode(BinaryNode* node, DataDestructor destructor);
 
 typedef struct
 {
@@ -49,7 +49,7 @@ typedef struct
     size_t size;
 } LinkedList;
 
-LinkedList* CreateLinkedList(size_t typeSize, DataDestructor* typeDestructor);
+LinkedList* CreateLinkedList(size_t typeSize, DataDestructor typeDestructor);
 void DestroyLinkedList(LinkedList* list);
 
 int LinkedListPush(LinkedList* list, void* data);
@@ -57,15 +57,15 @@ int LinkedListAppend(LinkedList* list, void* data);
 int LinkedListInsert(LinkedList* list, size_t index, void* data);
 
 void* LinkedListAt(LinkedList* list, size_t index);
-void* LinkedListFirstMatch(LinkedList* list, Predicate* predicate,
+void* LinkedListFirstMatch(LinkedList* list, Predicate predicate,
         void* predicateData);
 
 int LinkedListRemove(LinkedList* list, void* toRemove);
-int LinkedListRemoveIf(LinkedList* list, Predicate* predicate,
+int LinkedListRemoveIf(LinkedList* list, Predicate predicate,
         void* predicateData);
 
-int LinkedListForEach(LinkedList* list, Function* function, void* functionData);
-int LinkedListForEachMatch(LinkedList* list, Predicate* predicate,
-        void* predicateData, Function* function, void* functionData);
+int LinkedListForEach(LinkedList* list, Function function, void* functionData);
+int LinkedListForEachMatch(LinkedList* list, Predicate predicate,
+        void* predicateData, Function function, void* functionData);
 
 #endif /* SRC_LINKED_H_ */

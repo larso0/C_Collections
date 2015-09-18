@@ -7,7 +7,7 @@
 
 #include "linked.h"
 
-LinkedList* CreateLinkedList(size_t typeSize, DataDestructor* typeDestructor)
+LinkedList* CreateLinkedList(size_t typeSize, DataDestructor typeDestructor)
 {
     LinkedList* list = NULL;
     if(typeSize > 0)
@@ -162,7 +162,7 @@ void* LinkedListAt(LinkedList* list, size_t index)
     return result;
 }
 
-void* LinkedListFirstMatch(LinkedList* list, Predicate* predicate, void* predicateData)
+void* LinkedListFirstMatch(LinkedList* list, Predicate predicate, void* predicateData)
 {
     void* result = NULL;
     if(list != NULL && predicate != NULL)
@@ -235,7 +235,7 @@ int LinkedListRemove(LinkedList* list, void* toRemove)
     return error;
 }
 
-int LinkedListRemoveIf(LinkedList* list, Predicate* predicate, void* predicateData)
+int LinkedListRemoveIf(LinkedList* list, Predicate predicate, void* predicateData)
 {
     int error = 0;
     if(list == NULL || predicate == NULL)
@@ -290,7 +290,7 @@ int LinkedListRemoveIf(LinkedList* list, Predicate* predicate, void* predicateDa
     return error;
 }
 
-int LinkedListForEach(LinkedList* list, Function* function, void* functionData)
+int LinkedListForEach(LinkedList* list, Function function, void* functionData)
 {
     int error = 0;
     if(list == NULL || function == NULL)
@@ -308,8 +308,8 @@ int LinkedListForEach(LinkedList* list, Function* function, void* functionData)
     return error;
 }
 
-int LinkedListForEachMatch(LinkedList* list, Predicate* predicate,
-        void* predicateData, Function* function, void* functionData)
+int LinkedListForEachMatch(LinkedList* list, Predicate predicate,
+        void* predicateData, Function function, void* functionData)
 {
     int error = 0;
     if(list == NULL || predicate == NULL || function == NULL)

@@ -32,7 +32,7 @@ UnaryNode* CreateUnaryNode(void* data, size_t size)
     return node;
 }
 
-void DestroyUnaryNode(UnaryNode* node, DataDestructor* destructor)
+void DestroyUnaryNode(UnaryNode* node, DataDestructor destructor)
 {
     if(node != NULL)
     {
@@ -73,7 +73,7 @@ BinaryNode* CreateBinaryNode(void* data, size_t size)
     return node;
 }
 
-void DestroyBinaryNode(BinaryNode* node, DataDestructor* destructor)
+void DestroyBinaryNode(BinaryNode* node, DataDestructor destructor)
 {
     if(node != NULL)
     {
