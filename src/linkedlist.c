@@ -132,11 +132,11 @@ int LinkedListInsert(LinkedList* list, size_t index, void* data)
                 {
                     UnaryNode* tmp = list->front;
                     size_t i = 0;
-                    for(; i < index; i++)
+                    for(; i < index-1; i++)
                     {
                         tmp = tmp->right;
                     }
-                    node->right = tmp->right->right;
+                    node->right = tmp->right;
                     tmp->right = node;
                     list->size++;
                 }
@@ -180,61 +180,6 @@ void* LinkedListFirstMatch(LinkedList* list, Predicate predicate, void* predicat
     return result;
 }
 
-int LinkedListRemove(LinkedList* list, void* toRemove)
-{
-    int error = 0;
-    if(list == NULL || toRemove == NULL)
-    {
-        error = LINKED_ERROR_NULLPOINTER;
-    }
-    else if(list->size > 0)
-    {
-        if(toRemove == list->front->data)
-        {
-            UnaryNode* tmp = list->front;
-            list->front = tmp->right;
-            if(list->back == tmp)
-            {
-                list->back = NULL;
-            }
-            DestroyUnaryNode(tmp, list->typeDestructor);
-            list->size--;
-        }
-        else if(list->size == 1 && toRemove == list->back->data)
-        {
-            list->front = NULL;
-            DestroyUnaryNode(list->back, list->typeDestructor);
-            list->back = NULL;
-            list->size--;
-        }
-        else
-        {
-            UnaryNode* prev = list->front;
-            UnaryNode* tmp = prev->right;
-            while(tmp != NULL && tmp->data != toRemove)
-            {
-                prev = tmp;
-                tmp = tmp->right;
-            }
-            if(tmp == NULL)
-            {
-                error = LINKED_ERROR_NOT_FOUND;
-            }
-            else
-            {
-                prev->right = tmp->right;
-                DestroyUnaryNode(tmp, list->typeDestructor);
-                list->size--;
-            }
-        }
-    }
-    else
-    {
-        error = LINKED_ERROR_NOT_FOUND;
-    }
-    return error;
-}
-
 int LinkedListRemoveIf(LinkedList* list, Predicate predicate, void* predicateData)
 {
     int error = 0;
@@ -244,48 +189,27 @@ int LinkedListRemoveIf(LinkedList* list, Predicate predicate, void* predicateDat
     }
     else if(list->size > 0)
     {
-        if((*predicate)(list->front->data, predicateData))
+        UnaryNode* prev = NULL;
+        UnaryNode* iter = list->front;
+        while(iter != NULL)
         {
-            UnaryNode* tmp = list->front;
-            list->front = tmp->right;
-            if(list->back == tmp)
+            if((*predicate)(iter->data, predicateData))
             {
-                list->back = NULL;
-            }
-            DestroyUnaryNode(tmp, list->typeDestructor);
-            list->size--;
-        }
-        else if(list->size == 1 && (*predicate)(list->back->data, predicateData))
-        {
-            list->front = NULL;
-            DestroyUnaryNode(list->back, list->typeDestructor);
-            list->back = NULL;
-            list->size--;
-        }
-        else
-        {
-            UnaryNode* prev = list->front;
-            UnaryNode* tmp = prev->right;
-            while(tmp != NULL && !(*predicate)(tmp->data, predicateData))
-            {
-                prev = tmp;
-                tmp = tmp->right;
-            }
-            if(tmp == NULL)
-            {
-                error = LINKED_ERROR_NOT_FOUND;
-            }
-            else
-            {
-                prev->right = tmp->right;
-                DestroyUnaryNode(tmp, list->typeDestructor);
+                prev->right = iter->right;
+                DestroyUnaryNode(iter, list->typeDestructor);
+                iter = prev->right;
                 list->size--;
+            }
+            prev = iter;
+            if(iter != NULL)
+            {
+                iter = iter->right;
             }
         }
     }
     else
     {
-        error = LINKED_ERROR_NOT_FOUND;
+        error = LINKED_ERROR_EMPTY;
     }
     return error;
 }

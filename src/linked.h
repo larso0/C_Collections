@@ -16,7 +16,8 @@ enum
     LINKED_ERROR_NULLPOINTER,
     LINKED_ERROR_NODE_CREATION_FAILURE,
     LINKED_ERROR_OUT_OF_BOUNDS,
-    LINKED_ERROR_NOT_FOUND
+    LINKED_ERROR_NOT_FOUND,
+    LINKED_ERROR_EMPTY
 };
 
 typedef struct UnaryNode
@@ -44,7 +45,7 @@ void DestroyBinaryNode(BinaryNode* node, DataDestructor destructor);
 typedef struct
 {
     size_t typeSize;
-    DataDestructor* typeDestructor;
+    DataDestructor typeDestructor;
     UnaryNode* front, *back;
     size_t size;
 } LinkedList;
@@ -60,7 +61,6 @@ void* LinkedListAt(LinkedList* list, size_t index);
 void* LinkedListFirstMatch(LinkedList* list, Predicate predicate,
         void* predicateData);
 
-int LinkedListRemove(LinkedList* list, void* toRemove);
 int LinkedListRemoveIf(LinkedList* list, Predicate predicate,
         void* predicateData);
 
